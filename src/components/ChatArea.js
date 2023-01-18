@@ -1,12 +1,12 @@
 import React from "react";
-import Sender from "./Sender";
+import MessageToDisplay from "./MessageToDisplay";
 
 function ChatArea({ messages }) {
   console.log(messages);
   return (
-    <main className="h-full pt-6 w-full pb-44 ">
+    <main className="h-screen pt-6 w-full pb-44 ">
       {messages.map((message) => (
-        <Sender
+        <MessageToDisplay
           id={message.id}
           key={message.id}
           userLogged={message.userLoggedIn}

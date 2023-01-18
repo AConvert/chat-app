@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
 import moment from "moment";
 
-function Sender({ messages, id, userLogged, timestamp }) {
+function MessageToDisplay({ messages, id, userLogged, timestamp }) {
   const [user] = useAuthState(auth);
 
   return (
@@ -31,4 +31,4 @@ function Sender({ messages, id, userLogged, timestamp }) {
   );
 }
 
-export default Sender;
+export default MessageToDisplay;

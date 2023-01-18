@@ -3,7 +3,14 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChatHeader from "./components/ChatHeader";
 import ChatSendMessage from "./components/ChatSendMessage";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "./config/firebase";
 import ChatArea from "./components/ChatArea";
 
@@ -15,35 +22,35 @@ function Chat() {
 
   useEffect(() => {
     const chatMess = [];
-
-    const senderData = async () => {
+    const chatData = async () => {
       const docRef = query(
-        collection(db, "chatList", newUser.email, "messages")
+        collection(db, "chatList", newUser.email, "messages"),
+        orderBy("timestamp", "asc")
         // where("userLoggedIn", "==", authenticatedUser.email)
       );
-      onSnapshot(docRef, (messageSnap) => {
-        messageSnap.docs.map((message) => {
-          console.log(message.data());
-          // const senderData = message.data();
-          // console.log(senderData);
-          // chatMess.push(senderData);
-        });
-      });
-    };
 
-    const recipientData = async () => {
-      const docRef = query(
-        collection(db, "chatList", authenticatedUser.email, "messages"),
-        where("userLoggedIn", "==", newUser.email)
-      );
       onSnapshot(docRef, (messageSnap) => {
         messageSnap.forEach((message) => {
-          const recData = message.data();
-          chatMess.push(recData);
+          const senderData = message.data();
+          chatMess.push(senderData);
           setChatMessages(chatMess);
         });
       });
     };
+
+    // const recipientData = async () => {
+    //   const docRef = query(
+    //     collection(db, "chatList", authenticatedUser.email, "messages"),
+    //     where("userLoggedIn", "==", newUser.email)
+    //   );
+    //   onSnapshot(docRef, (messageSnap) => {
+    //     messageSnap.forEach((message) => {
+    //       const recData = message.data();
+    //       chatMess.push(recData);
+    //       setChatMessages(chatMess);
+    //     });
+    //   });
+    // };
 
     // const sortByTime = chatMessages.sort((x, y) => {
     //   return x.timestamp - y.timestamp;
@@ -51,11 +58,9 @@ function Chat() {
 
     // setMessagesSorted(sortByTime);
 
-    senderData();
-    recipientData();
+    chatData();
+    // recipientData();
   }, []);
-
-  console.log(chatMessages);
 
   return (
     <main className="relative h-full w-screen bg-gray-900">
