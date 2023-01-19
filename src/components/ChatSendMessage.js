@@ -52,6 +52,7 @@ function ChatSendMessage({ newUser }) {
         <button
           className="absolute z-20 top-8 right-8"
           type="submit"
+          disabled={!messageInput}
           onClick={sendMessage}
         >
           <SendIcon sx={{ width: 30, height: 30, color: "#75e8e7" }} />

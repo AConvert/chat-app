@@ -3,63 +3,37 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChatHeader from "./components/ChatHeader";
 import ChatSendMessage from "./components/ChatSendMessage";
+
+import ChatArea from "./components/ChatArea";
 import {
-  collection,
-  getDocs,
+  collectionGroup,
   onSnapshot,
   orderBy,
   query,
-  where,
 } from "firebase/firestore";
 import { db } from "./config/firebase";
-import ChatArea from "./components/ChatArea";
 
 function Chat() {
   const { state } = useLocation();
   const { newUser, authenticatedUser } = state;
   const [chatMessages, setChatMessages] = useState([]);
-  const [messagesSorted, setMessagesSorted] = useState([]);
 
   useEffect(() => {
     const chatMess = [];
     const chatData = async () => {
       const docRef = query(
-        collection(db, "chatList", newUser.email, "messages"),
+        collectionGroup(db, "messages"),
         orderBy("timestamp", "asc")
-        // where("userLoggedIn", "==", authenticatedUser.email)
       );
 
-      onSnapshot(docRef, (messageSnap) => {
-        messageSnap.forEach((message) => {
-          const senderData = message.data();
-          chatMess.push(senderData);
+      onSnapshot(docRef, (snapshot) => {
+        snapshot.forEach((doc) => {
+          chatMess.push(doc.data());
           setChatMessages(chatMess);
         });
       });
     };
-
-    // const recipientData = async () => {
-    //   const docRef = query(
-    //     collection(db, "chatList", authenticatedUser.email, "messages"),
-    //     where("userLoggedIn", "==", newUser.email)
-    //   );
-    //   onSnapshot(docRef, (messageSnap) => {
-    //     messageSnap.forEach((message) => {
-    //       const recData = message.data();
-    //       chatMess.push(recData);
-    //       setChatMessages(chatMess);
-    //     });
-    //   });
-    // };
-
-    // const sortByTime = chatMessages.sort((x, y) => {
-    //   return x.timestamp - y.timestamp;
-    // });
-
-    // setMessagesSorted(sortByTime);
-
     chatData();
-    // recipientData();
   }, []);
 
   return (
@@ -77,7 +51,6 @@ function Chat() {
           newUser={newUser}
           loggedUser={authenticatedUser}
         />
-
         <div className="fixed bottom-0 z-20">
           <ChatSendMessage newUser={newUser} />
         </div>

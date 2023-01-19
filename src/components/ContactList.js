@@ -115,6 +115,7 @@ function ContactList() {
   const enterChat = (chatEmail) => {
     const findChat = contactList.find((c) => c.newUserEmail === chatEmail);
     if (findChat) {
+      console.log(findChat.id);
       navigate(`chat/${findChat.id}`, {
         state: {
           newUser: {
