@@ -6,9 +6,6 @@ import moment from "moment";
 
 function ChatHeader({ newUser }) {
   const [lastSeen, setLastSeen] = useState("");
-  // const [user] = useAuthState(auth)
-
-  // review timestamp
 
   useEffect(() => {
     const fetchRecTimestamp = async () => {

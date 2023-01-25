@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChatHeader from "./components/ChatHeader";
 import SendIcon from "@mui/icons-material/Send";
-import Picker from "emoji-picker-react";
 
 import {
   addDoc,
@@ -23,8 +22,8 @@ import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 function Chat() {
   const { state } = useLocation();
   const { newUser, authenticatedUser } = state;
-  const endOfMessagesRef = useRef(null);
   const [messageInput, setMessageInput] = useState("");
+
   const [user] = useAuthState(auth);
   const [messagesSnapshot] = useCollection(
     query(collectionGroup(db, "messages"), orderBy("timestamp", "asc"))
@@ -50,13 +49,6 @@ function Chat() {
     setMessageInput("");
   };
 
-  // const ScrollToBottom = () => {
-  //   endOfMessagesRef.current.scrollIntoView({
-  //     behavior: "smooth",
-  //     block: "start",
-  //   });
-  // };
-
   const showMessages = () => {
     if (messagesSnapshot) {
       return messagesSnapshot.docs.map((message) => {
@@ -78,8 +70,6 @@ function Chat() {
         }
       });
     }
-
-    // ScrollToBottom();
   };
 
   return (
@@ -92,10 +82,7 @@ function Chat() {
       </div>
       <section className="">
         <ChatHeader newUser={newUser} />
-        <div className="h-full p-4 w-full">
-          {showMessages()}
-          <div className="mb-48" ref={endOfMessagesRef}></div>
-        </div>
+        <div className="h-full mb-24 p-4 w-full">{showMessages()}</div>
 
         <div className="w-screen fixed bottom-0 z-20">
           <section className="w-full py-5 px-4">
@@ -106,6 +93,7 @@ function Chat() {
               value={messageInput}
               onChange={(e) => setMessageInput(e.target.value)}
             />
+
             <div className="text-white absolute z-20 top-8 left-8">
               <EmojiEmotionsIcon
                 sx={{ width: 30, height: 30, color: "#75e8e7" }}

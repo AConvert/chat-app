@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
 import moment from "moment";
@@ -7,12 +7,23 @@ function MessageToDisplay({ message, id, timestamp }) {
   const [user] = useAuthState(auth);
   const [chatMessages, setChatMessages] = useState([]);
 
+  const endOfMessagesRef = useRef(null);
+
   useEffect(() => {
     setChatMessages(message);
+
+    const scrollToBottom = () => {
+      endOfMessagesRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
+    };
+
+    scrollToBottom();
   }, []);
 
   return (
     <main
+      ref={endOfMessagesRef}
       id={id}
       className={
         chatMessages.userLoggedIn === user.email
