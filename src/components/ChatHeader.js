@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../config/firebase";
+import moment from "moment";
 
 function ChatHeader({ newUser }) {
   const [lastSeen, setLastSeen] = useState("");
+  // const [user] = useAuthState(auth)
+
+  // review timestamp
 
   useEffect(() => {
     const fetchRecTimestamp = async () => {
@@ -16,13 +20,13 @@ function ChatHeader({ newUser }) {
       const recSnap = await getDocs(q);
       recSnap.docs.map((rec) => {
         if (rec.exists()) {
-          setLastSeen(rec.data().timestamp?.toDate().toLocaleTimeString());
+          setLastSeen(moment(rec.timestamp).format("LT"));
         }
       });
     };
 
     fetchRecTimestamp();
-  }, []);
+  }, [newUser]);
 
   return (
     <main>

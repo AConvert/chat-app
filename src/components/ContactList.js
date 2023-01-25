@@ -126,7 +126,7 @@ function ContactList() {
           authenticatedUser: {
             name: user.displayName,
             email: user.email,
-            uid: user.uid,
+            id: user.uid,
             photoUrl: user.photoURL,
           },
         },

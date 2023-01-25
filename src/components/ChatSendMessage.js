@@ -2,16 +2,11 @@ import React, { useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import {
   addDoc,
-  arrayUnion,
   collection,
   doc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  query,
   serverTimestamp,
   setDoc,
-  where,
+  updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -20,23 +15,33 @@ function ChatSendMessage({ newUser }) {
   const [messageInput, setMessageInput] = useState("");
   const [user] = useAuthState(auth);
 
-  const sendMessage = () => {
-    const fetchChatRef = async () => {
-      const q = doc(db, "chatList", newUser.email);
+  const chatRef = doc(db, "chatList", newUser.email);
 
-      const updateDoc = collection(q, "messages");
-      addDoc(updateDoc, {
+  const sendMessage = () => {
+    const addMessage = async () => {
+      const updateDoc = collection(chatRef, "messages");
+      await addDoc(updateDoc, {
         messages: messageInput,
         userLoggedIn: user.email,
+        newUser: newUser.email,
         photoURL: user.photoURL,
-        id: newUser.id,
+        id: user.uid,
         timestamp: serverTimestamp(),
       });
     };
 
-    fetchChatRef();
+    addMessage();
 
     setMessageInput("");
+
+    const updateUserTimestamp = async () => {
+      const docRef = doc(db, "users", user.uid);
+      await updateDoc(docRef, {
+        timestamp: serverTimestamp(),
+      });
+    };
+
+    updateUserTimestamp();
   };
 
   return (
