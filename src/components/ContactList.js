@@ -4,16 +4,13 @@ import { auth, db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
-  addDoc,
-  arrayUnion,
   collection,
+  deleteDoc,
   doc,
-  getDoc,
-  getDocs,
   onSnapshot,
   query,
-  serverTimestamp,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
@@ -21,8 +18,10 @@ import { v4 as uuidv4 } from "uuid";
 function ContactList() {
   const [contactList, setContactList] = useState([]);
   const [authenticatedUser, setAuthenticatedUser] = useState("");
-  const [singleChat, setSingleChat] = useState([]);
+  const [newUpdatedEmail, setNewUpdatedEmail] = useState("");
+  const [newUpdatedName, setNewUpdatedName] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [chatName, setChatName] = useState("");
   const [chatEmail, setChatEmail] = useState("");
   const [foundExistingEmail, setFoundExistingEmail] = useState(false);
@@ -91,7 +90,6 @@ function ContactList() {
       let existingEmail = contactList.findIndex(
         (contact) => contact.newUserEmail === userEmail
       );
-      console.log(existingEmail);
       if (existingEmail >= 0) {
         setFoundExistingEmail(!foundExistingEmail);
       } else {
@@ -133,6 +131,23 @@ function ContactList() {
     }
   };
 
+  const deleteChat = (userEmail) => {
+    const docRef = doc(db, "chatList", userEmail);
+    deleteDoc(docRef).catch((error) => {
+      console.log(error);
+    });
+  };
+
+  const editChat = async (userEmail) => {
+    setOpenModal(!openModal);
+
+    const docRef = doc(db, "chatList", userEmail);
+    await updateDoc(docRef, {
+      newUserEmail: newUpdatedEmail,
+      newUserName: newUpdatedName,
+    });
+  };
+
   return (
     <main className="h-screen w-screen overflow-y-scroll scrollbar-hide">
       {foundExistingEmail ? (
@@ -142,12 +157,12 @@ function ContactList() {
           </h1>
         </div>
       ) : null}
-      <section className="w-full ">
-        <div className="w-screen  flex items-center justify-center border border-gray-500 border-opacity-50">
+      <section className="w-full  ">
+        <div className="w-screen md:hidden flex items-center justify-center border border-gray-500 border-opacity-50">
           <div className="w-full my-4 mx-16 ">
             <button
               onClick={(e) => setIsOpen(!isOpen)}
-              className="w-full relative bg-gradient-to-r from-purple-700 via-fuchsia-500 to-pink-400 text-md p-3 rounded-xl text-black outline-none"
+              className="w-full  relative bg-gradient-to-r from-purple-700 via-fuchsia-500 to-pink-400 text-md p-3 rounded-xl text-black outline-none"
             >
               Start a new chat
             </button>
@@ -190,8 +205,8 @@ function ContactList() {
         </div>
 
         <div>
-          <div className="flex items-center">
-            <h1 className="text-white font-bold text-md pl-6 pt-4 pb-4 pr-1">
+          <div className="flex items-center ">
+            <h1 className="text-white font-bold text-md md:text-lg lg:text-xl pl-6 md:ml-16 pt-4 pb-4 md:pt-6 md:pb-6 pr-1">
               Chats
             </h1>
             <div className="relative">
@@ -202,15 +217,18 @@ function ContactList() {
             </div>
           </div>
         </div>
-        {contactList.map((chat) => (
-          <ContactCard
-            id={chat.id}
-            key={chat.id}
-            name={chat.newUserName}
-            email={chat.newUserEmail}
-            enterChat={() => enterChat(chat.newUserEmail)}
-          />
-        ))}
+        <section className="md:mr-16 md:ml-16 ">
+          {contactList.map((chat) => (
+            <ContactCard
+              id={chat.id}
+              key={chat.id}
+              name={chat.newUserName}
+              email={chat.newUserEmail}
+              enterChat={() => enterChat(chat.newUserEmail)}
+              deleteChat={() => deleteChat(chat.newUserEmail)}
+            />
+          ))}
+        </section>
       </section>
     </main>
   );

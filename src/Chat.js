@@ -18,6 +18,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import MessageToDisplay from "./components/MessageToDisplay";
 import { useAuthState } from "react-firebase-hooks/auth";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import ChatSidebar from "./components/ChatSidebar";
 
 function Chat() {
   const { state } = useLocation();
@@ -80,11 +81,21 @@ function Chat() {
         </Link>
         <Outlet />
       </div>
-      <section className="">
-        <ChatHeader newUser={newUser} />
-        <div className="h-full mb-24 p-4 w-full">{showMessages()}</div>
 
-        <div className="w-screen fixed bottom-0 z-20">
+      <div>
+        <ChatHeader newUser={newUser} />
+
+        <div className="md:flex space-x-2">
+          <div className="hidden md:block">
+            <ChatSidebar loggedUser={authenticatedUser} />
+          </div>
+
+          <div className="h-full pb-48 xl:mb-24 p-4 md:px-8 flex-1">
+            {showMessages()}
+          </div>
+        </div>
+
+        <div className="w-full fixed bottom-0 md:right-1 xl:right-2 z-20">
           <section className="w-full py-5 px-4">
             <input
               className="relative w-full pl-14 pr-3 pt-3 pb-3 outline-none border-2 border-[#75e8e7] rounded-2xl bg-gray-900 text-white text-md"
@@ -110,7 +121,7 @@ function Chat() {
             </button>
           </section>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

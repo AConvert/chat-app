@@ -2,25 +2,8 @@ import React from "react";
 import MessageToDisplay from "./MessageToDisplay";
 
 function ChatArea({ newUser, loggedUser, messages }) {
-  console.log(messages);
-  // messages.map((mess) => {
-  //   if (
-  //     // mess.newUser === newUser.email &&
-  //     // // mess.id === loggedUser.id &&
-  //     // mess.newUser === loggedUser.email &&
-  //     // mess.id === newUser.id
-  //     // mess.newUser === newUser.email &&
-  //     mess.userLoggedIn === newUser.email
-  //     // mess.userLoggedIn === loggedUser.email
-  //     // mess.id === loggedUser.id &&
-  //     // mess.newUser === newUser.email
-  //   ) {
-  //     console.log(mess.messages);
-  //   }
-  // });
-
   return (
-    <main className="h-screen pt-6 w-full pb-44 ">
+    <main className="h-full pt-6 w-full pb-44 ">
       {messages.map((mess) => {
         if (
           (mess.id === loggedUser.id && mess.newUser === newUser.email) ||

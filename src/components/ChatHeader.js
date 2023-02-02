@@ -6,6 +6,7 @@ import moment from "moment";
 
 function ChatHeader({ newUser }) {
   const [lastSeen, setLastSeen] = useState("");
+  const [avatarImage, setAvatarImage] = useState("");
 
   useEffect(() => {
     const fetchRecTimestamp = async () => {
@@ -17,6 +18,7 @@ function ChatHeader({ newUser }) {
       const recSnap = await getDocs(q);
       recSnap.docs.map((rec) => {
         if (rec.exists()) {
+          setAvatarImage(rec.data().photoURL);
           setLastSeen(moment(rec.timestamp).format("LT"));
         }
       });
@@ -29,6 +31,7 @@ function ChatHeader({ newUser }) {
     <main>
       <div className="flex items-center justify-center space-x-4 py-8 border-b border-gray-500 border-opacity-50">
         <Avatar
+          src={avatarImage}
           sx={{
             width: 64,
             height: 64,
@@ -38,7 +41,7 @@ function ChatHeader({ newUser }) {
             fontWeight: "bold",
           }}
         >
-          {newUser?.name[0]}
+          {!avatarImage ? newUser?.name[0] : null}
         </Avatar>
         <div className="fle flex-col space-y-1">
           <h1 className="text-md font-semibold text-white">{newUser.name}</h1>
