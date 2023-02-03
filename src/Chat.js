@@ -86,16 +86,16 @@ function Chat() {
         <ChatHeader newUser={newUser} />
 
         <div className="md:flex space-x-2">
-          <div className="hidden md:block">
+          <div className="hidden md:block w-[36%]">
             <ChatSidebar loggedUser={authenticatedUser} />
           </div>
 
-          <div className="h-full pb-48 xl:mb-24 p-4 md:px-8 flex-1">
+          <div className="h-full pb-48 xl:mb-24 p-4 md:px-8 w-full lg:w-[64%] ">
             {showMessages()}
           </div>
         </div>
 
-        <div className="w-full fixed bottom-0 md:right-1 xl:right-2 z-20">
+        <div className="w-full xl:w-[64%] fixed bottom-0 md:right-1 xl:right-2 z-20">
           <section className="w-full py-5 px-4">
             <input
               className="relative w-full pl-14 pr-3 pt-3 pb-3 outline-none border-2 border-[#75e8e7] rounded-2xl bg-gray-900 text-white text-md"

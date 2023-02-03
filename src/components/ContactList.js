@@ -18,10 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 function ContactList() {
   const [contactList, setContactList] = useState([]);
   const [authenticatedUser, setAuthenticatedUser] = useState("");
-  const [newUpdatedEmail, setNewUpdatedEmail] = useState("");
-  const [newUpdatedName, setNewUpdatedName] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const [chatName, setChatName] = useState("");
   const [chatEmail, setChatEmail] = useState("");
   const [foundExistingEmail, setFoundExistingEmail] = useState(false);
@@ -138,16 +135,6 @@ function ContactList() {
     });
   };
 
-  const editChat = async (userEmail) => {
-    setOpenModal(!openModal);
-
-    const docRef = doc(db, "chatList", userEmail);
-    await updateDoc(docRef, {
-      newUserEmail: newUpdatedEmail,
-      newUserName: newUpdatedName,
-    });
-  };
-
   return (
     <main className="h-screen w-screen overflow-y-scroll scrollbar-hide">
       {foundExistingEmail ? (
@@ -157,7 +144,7 @@ function ContactList() {
           </h1>
         </div>
       ) : null}
-      <section className="w-full  ">
+      <section className="w-full ">
         <div className="w-screen md:hidden flex items-center justify-center border border-gray-500 border-opacity-50">
           <div className="w-full my-4 mx-16 ">
             <button
@@ -166,6 +153,7 @@ function ContactList() {
             >
               Start a new chat
             </button>
+
             {isOpen ? (
               <div
                 ref={modalRef}
@@ -203,7 +191,6 @@ function ContactList() {
             ) : null}
           </div>
         </div>
-
         <div>
           <div className="flex items-center ">
             <h1 className="text-white font-bold text-md md:text-lg lg:text-xl pl-6 md:ml-16 pt-4 pb-4 md:pt-6 md:pb-6 pr-1">
