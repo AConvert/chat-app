@@ -165,9 +165,9 @@ function SidebarHeader() {
             id: d.id,
             timestamp: new Date(d.timestamp * 1000),
           });
-          setUserName(userInfo[0]?.name);
-          setReplaceName(userInfo[0]?.displayName);
-          setProfilePic(userInfo?.photoURL);
+          setUserName(userInfo[0]?.name.toUpperCase());
+          setReplaceName(userInfo[0]?.displayName.toUpperCase());
+          setProfilePic(userInfo[0]?.photoURL);
           setLastSeen(moment(userInfo[0]?.timestamp).format("LT"));
         });
       });
@@ -190,7 +190,7 @@ function SidebarHeader() {
               fontSize: 32,
               fontWeight: "bold",
             }}
-            src={`${profilePic}`}
+            src={profilePic}
             alt="user_profileImg"
             referrerPolicy="no-referrer"
           >
