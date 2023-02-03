@@ -19,7 +19,6 @@ import { Menu, Transition } from "@headlessui/react";
 import moment from "moment";
 
 function SidebarHeader() {
-  const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contactList, setContactList] = useState([]);
   const [foundExistingEmail, setFoundExistingEmail] = useState(false);
@@ -271,7 +270,7 @@ function SidebarHeader() {
             >
               <Menu.Items className="absolute z-20 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-gray-600 shadow-sm shadow-gray-400 backdrop-blur-lg bg-opacity-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1 ">
-                  <Menu.Item>
+                  <Menu.Item onClick={handleLogout}>
                     {({ active }) => (
                       <button
                         className={`${
