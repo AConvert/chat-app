@@ -16,6 +16,7 @@
     "autoprefixer": "^10.4.13",
     "emoji-picker-react": "^4.4.7",
     "firebase": "^9.14.0",
+    "firebase-tools": "^11.22.0",
     "init": "^0.1.2",
     "moment": "^2.29.4",
     "postcss": "^8.4.19",
