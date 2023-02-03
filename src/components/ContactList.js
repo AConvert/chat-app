@@ -145,7 +145,7 @@ function ContactList() {
         </div>
       ) : null}
       <section className="w-full ">
-        <div className="w-screen md:hidden flex items-center justify-center border border-gray-500 border-opacity-50">
+        <div className="w-screen md:hidden flex items-center justify-center border-y border-gray-500 border-opacity-50">
           <div className="w-full my-4 mx-16 ">
             <button
               onClick={(e) => setIsOpen(!isOpen)}

@@ -53,7 +53,7 @@ function ContactCard({ name, email, id, enterChat, deleteChat }) {
 
   return (
     <main id={id} className="w-full transition-all my-2 cursor-pointer ">
-      <div className="flex justify-between items-center p-2 hover:bg-gradient-to-r from-purple-700 via-fuchsia-500 to-pink-400 mx-3 rounded-xl">
+      <div className="flex justify-between items-center p-2 bg-gradient-to-r from-purple-700 via-fuchsia-500 to-pink-400 lg:hover:bg-gradient-to-r lg:from-purple-700 lg:via-fuchsia-500 lg:to-pink-400 mx-3 rounded-xl">
         <div onClick={enterChat} className="flex items-center space-x-2 ">
           <Avatar
             sx={{

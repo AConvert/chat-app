@@ -179,7 +179,7 @@ function SidebarHeader() {
 
   return (
     <main className="w-full">
-      <section className="flex items-center justify-between p-2 md:py-4 md:pr-12 md:pl-16 border border-gray-500 border-opacity-50">
+      <section className="flex items-center justify-between p-2 md:py-4 md:pr-12 md:pl-16 border-y border-gray-500 border-opacity-50">
         <div className="flex items-center justify-start  space-x-3 p-4">
           <Avatar
             sx={{
