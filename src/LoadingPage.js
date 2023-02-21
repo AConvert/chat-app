@@ -1,5 +1,5 @@
 import React from "react";
-import { DotLoader } from "react-spinners";
+import { BounceLoader } from "react-spinners";
 
 function LoadingPage() {
   return (
@@ -12,7 +12,7 @@ function LoadingPage() {
             loading="lazy"
             alt="chat_logo"
           />
-          <DotLoader loading={true} size={50} color="#fff" />
+          <BounceLoader loading={true} size={50} color="#fff" />
         </div>
       </section>
     </main>

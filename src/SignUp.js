@@ -50,10 +50,8 @@ function SignUp() {
     );
   };
 
-  const provider = new GoogleAuthProvider();
-
   const signInGoogle = async () => {
-    await signInWithPopup(auth, provider).catch((error) => {
+    await signInWithPopup(auth, new GoogleAuthProvider()).catch((error) => {
       const errorMessage = error.message;
       const credential = GoogleAuthProvider.credentialFromError(error);
       alert(credential);

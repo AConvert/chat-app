@@ -59,10 +59,8 @@ function Login() {
     setUserPassword("");
   };
 
-  const provider = new GoogleAuthProvider();
-
   const signInGoogle = async () => {
-    await signInWithPopup(auth, provider)
+    await signInWithPopup(auth, new GoogleAuthProvider())
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
